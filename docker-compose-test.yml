@@ -1,0 +1,15 @@
+version: "3"
+services:
+  test:
+    build: .
+    container_name: fw-alerts-test
+    ports:
+      - "4200:4200"
+    environment:
+      PORT: 4200
+      NODE_PATH: app/src
+      NODE_ENV: test
+      GATEWAY_URL: http://mymachine:9000
+      MICROSERVICE_TOKEN: ctToken
+      FASTLY_ENABLED: "false"
+    command: test
