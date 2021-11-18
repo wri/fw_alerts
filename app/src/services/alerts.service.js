@@ -3,7 +3,6 @@ const logger = require('logger');
 const config = require('config');
 const moment = require('moment');
 const GFWDataAPIService = require('services/gfw-data-api.service');
-const loggedInUserService = require('services/LoggedInUserService');
 
 class AreaService {
 
@@ -79,10 +78,7 @@ class AreaService {
             const result = await axios.default({
                 baseURL,
                 url: uri,
-                method: 'GET',
-                headers: {
-                    authorization: loggedInUserService.token
-                }
+                method: 'GET'
             });
             logger.info('Got glad alerts', result.data.data.length);
             return AreaService.parseGladAlerts(result.data.data);

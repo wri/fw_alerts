@@ -8,7 +8,6 @@ services:
     environment:
       PORT: 4201
       NODE_PATH: app/src
-      GATEWAY_URL: http://127.0.0.1:9000
       CT_URL: https://api.resourcewatch.org
       GLAD_ALERTS_API_URL: https://api.resourcewatch.org
     command: develop

@@ -19,6 +19,7 @@ describe('Get alerts tests', () => {
     });
 
     it('Get alerts for a dataset that is not viirs nor glad should return a 400 error', async () => {
+
         const response = await requester.get(`/api/v1/fw-alerts/12345/67890`);
 
         response.status.should.equal(400);
@@ -28,7 +29,7 @@ describe('Get alerts tests', () => {
     it('Get alerts for the glad dataset should return a 200 response (happy case)', async () => {
         const firstDay = moment().subtract(365, 'days');
 
-        nock(process.env.GATEWAY_URL)
+        nock(process.env.GLAD_ALERTS_API_URL)
             .get('/v1/glad-alerts/download')
             .query({
                 period: `${firstDay.format('YYYY-MM-DD')},${moment().format('YYYY-MM-DD')}`,

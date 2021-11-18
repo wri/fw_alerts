@@ -7,9 +7,8 @@ services:
       - "4200:4200"
     environment:
       PORT: 4200
-      NODE_PATH: app/src
       NODE_ENV: test
-      GATEWAY_URL: http://mymachine:9000
-      MICROSERVICE_TOKEN: ctToken
-      FASTLY_ENABLED: "false"
+      NODE_PATH: app/src
+      CT_URL: http://127.0.0.1:9000
+      GLAD_ALERTS_API_URL: http://127.0.0.1:9000
     command: test
