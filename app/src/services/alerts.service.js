@@ -1,9 +1,9 @@
+const axios = require('axios');
 const logger = require('logger');
-const { RWAPIMicroservice } = require('rw-api-microservice-node');
 const config = require('config');
 const moment = require('moment');
 const GFWDataAPIService = require('services/gfw-data-api.service');
-
+const loggedInUserService = require('services/LoggedInUserService');
 
 class AreaService {
 
@@ -75,13 +75,17 @@ class AreaService {
 
         logger.info(`Requesting glad alerts with query ${uri}`);
         try {
-            const result = await RWAPIMicroservice.requestToMicroservice({
-                uri,
+            const baseURL = process.env.GLAD_ALERTS_API_URL;
+            const result = await axios.default({
+                baseURL,
+                url: uri,
                 method: 'GET',
-                json: true
+                headers: {
+                    authorization: loggedInUserService.token
+                }
             });
-            logger.info('Got glad alerts', result.data.length);
-            return AreaService.parseGladAlerts(result.data);
+            logger.info('Got glad alerts', result.data.data.length);
+            return AreaService.parseGladAlerts(result.data.data);
         } catch (err) {
             throw new Error(err);
         }

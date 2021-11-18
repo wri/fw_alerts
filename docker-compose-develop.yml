@@ -1,4 +1,4 @@
-version: "3"
+version: "3.5"
 services:
   develop:
     build: .
@@ -9,8 +9,16 @@ services:
       PORT: 4201
       NODE_PATH: app/src
       GATEWAY_URL: http://127.0.0.1:9000
-      MICROSERVICE_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pY3Jvc2VydmljZSIsImNyZWF0ZWRBdCI6IjIwMTYtMDktMTQifQ.IRCIRm1nfIQTfda_Wb6Pg-341zhV8soAgzw7dd5HxxQ
-      FASTLY_ENABLED: "false"
+      CT_URL: https://api.resourcewatch.org
+      GLAD_ALERTS_API_URL: https://api.resourcewatch.org
     command: develop
     volumes:
       - ./app:/opt/fw-alerts/app
+    networks:
+      - gfw-alerts-network
+      - gfw-network
+networks:
+  gfw-alerts-network:
+    name: gfw-alerts-network
+  gfw-network:
+    name: gfw-network

@@ -5,7 +5,6 @@ const validate = require('koa-validate');
 const loader = require('loader');
 const convert = require('koa-convert');
 const koaSimpleHealthCheck = require('koa-simple-healthcheck');
-const { RWAPIMicroservice } = require('rw-api-microservice-node');
 const ErrorSerializer = require('serializers/error.serializer');
 
 const koaBody = require('koa-body')({
@@ -14,6 +13,7 @@ const koaBody = require('koa-body')({
     formLimit: '50mb',
     textLimit: '50mb'
 });
+const loggedInUserService = require('./services/LoggedInUserService');
 
 const app = new Koa();
 validate(app);
@@ -49,14 +49,10 @@ app.use(async (ctx, next) => {
 
 app.use(koaLogger());
 
-app.use(RWAPIMicroservice.bootstrap({
-    logger,
-    gatewayURL: process.env.GATEWAY_URL,
-    microserviceToken: process.env.MICROSERVICE_TOKEN,
-    fastlyEnabled: process.env.FASTLY_ENABLED,
-    fastlyServiceId: process.env.FASTLY_SERVICEID,
-    fastlyAPIKey: process.env.FASTLY_APIKEY
-}));
+app.use(async (ctx, next) => {
+    await loggedInUserService.setLoggedInUser(ctx, logger);
+    await next();
+});
 
 loader.loadRoutes(app);
 
