@@ -1,0 +1,14 @@
+version: "3"
+services:
+  test:
+    build: .
+    container_name: fw-alerts-test
+    ports:
+      - "4200:4200"
+    environment:
+      PORT: 4200
+      NODE_ENV: test
+      NODE_PATH: app/src
+      CT_URL: http://127.0.0.1:9000
+      GLAD_ALERTS_API_URL: http://127.0.0.1:9000
+    command: test

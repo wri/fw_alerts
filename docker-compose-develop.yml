@@ -1,0 +1,23 @@
+version: "3.5"
+services:
+  develop:
+    build: .
+    ports:
+      - "4201:4201"
+    container_name: fw-alerts
+    environment:
+      PORT: 4201
+      NODE_PATH: app/src
+      CT_URL: https://api.resourcewatch.org
+      GLAD_ALERTS_API_URL: https://api.resourcewatch.org
+    command: develop
+    volumes:
+      - ./app:/opt/fw-alerts/app
+    networks:
+      - gfw-alerts-network
+      - gfw-network
+networks:
+  gfw-alerts-network:
+    name: gfw-alerts-network
+  gfw-network:
+    name: gfw-network
