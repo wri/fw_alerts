@@ -6,9 +6,11 @@ services:
     ports:
       - "4201:4201"
     environment:
-      PORT: 4201
       NODE_PATH: app/src
       NODE_ENV: dev
+      PORT: 4201
+      LOGGER_LEVEL: debug
+      SUPPRESS_NO_CONFIG_WARNING: "true"
       CONTROL_TOWER_URL: https://api.resourcewatch.org
       GLAD_ALERTS_API_URL: https://api.resourcewatch.org
     volumes:
