@@ -45,7 +45,7 @@ class AreaService {
 
   static async getViirsByGeostore(geostore, range = 7) {
     logger.debug(`Obtaining data of viirs with last ${range} days`);
-    const viirsDataset = config.get("viirsDataset");
+    const viirsDataset = config.get("viirs.dataset");
 
     const firstDay = moment().subtract(range, "days");
     const dateFilter = firstDay.format("YYYY-MM-DD");
@@ -71,7 +71,7 @@ class AreaService {
 
     logger.info(`Requesting glad alerts with query ${uri}`);
     try {
-      const baseURL = config.get("gladAlertsAPI.url");
+      const baseURL = config.get("glad.alertsAPI.url");
       const result = await axios.default({
         baseURL,
         url: uri,
