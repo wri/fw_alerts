@@ -9,5 +9,11 @@
   "gfwDataApi": {
     "url": "GFW_DATA_API__URL",
     "apiKey": "GFW_DATA_API__API_KEY"
+  },
+  "controlTower": {
+    "url": "CONTROL_TOWER_URL"
+  },
+  "gladAlertsAPI": {
+    "url": "GLAD_ALERTS_API_URL"
   }
 }

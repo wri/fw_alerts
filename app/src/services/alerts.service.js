@@ -71,7 +71,7 @@ class AreaService {
 
     logger.info(`Requesting glad alerts with query ${uri}`);
     try {
-      const baseURL = process.env.GLAD_ALERTS_API_URL;
+      const baseURL = config.get("gladAlertsAPI.url");
       const result = await axios.default({
         baseURL,
         url: uri,

@@ -9,6 +9,6 @@ services:
       PORT: 4200
       NODE_ENV: test
       NODE_PATH: app/src
-      CT_URL: http://127.0.0.1:9000
+      CONTROL_TOWER_URL: http://127.0.0.1:9000
       GLAD_ALERTS_API_URL: http://127.0.0.1:9000
     command: node node_modules/.bin/grunt --gruntfile app/Gruntfile.js e2eTest

@@ -29,7 +29,7 @@ describe("Get alerts tests", function () {
   it("Get alerts for the glad dataset should return a 200 response (happy case)", async function () {
     const firstDay = moment().subtract(365, "days");
 
-    nock(process.env.GLAD_ALERTS_API_URL)
+    nock(config.get("gladAlertsAPI.url"))
       .get("/v1/glad-alerts/download")
       .query({
         period: `${firstDay.format("YYYY-MM-DD")},${moment().format("YYYY-MM-DD")}`,

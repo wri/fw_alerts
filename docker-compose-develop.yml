@@ -9,7 +9,7 @@ services:
       PORT: 4201
       NODE_PATH: app/src
       NODE_ENV: dev
-      CT_URL: https://api.resourcewatch.org
+      CONTROL_TOWER_URL: https://api.resourcewatch.org
       GLAD_ALERTS_API_URL: https://api.resourcewatch.org
     volumes:
       - ./app:/opt/fw-alerts/app
