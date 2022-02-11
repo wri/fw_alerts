@@ -1,7 +1,6 @@
 {
   "logger": {
-    "name": "fw-alerts-DEV",
-    "level": "debug",
+    "name": "fw-alerts",
     "toFile": false,
     "dirLogFile": null
   },
@@ -9,11 +8,15 @@
     "name": "FW alerts",
     "port": 4200
   },
-  "gladDatasetSlug": "umd_as_it_happens",
-  "viirsDatasetSlug": "viirs",
-  "viirsDataset": "nasa_viirs_fire_alerts",
+  "viirs": {
+    "datasetSlug": "viirs",
+    "dataset": "nasa_viirs_fire_alerts"
+  },
   "gfwDataApi": {
     "url": "https://data-api.globalforestwatch.org",
     "apiKey": null
+  },
+  "glad": {
+    "datasetSlug": "umd_as_it_happens"
   }
 }

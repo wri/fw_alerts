@@ -21,10 +21,10 @@ class AlertsRouter {
     if (geostore) {
       let alerts = [];
       try {
-        if (dataset === config.get("viirsDatasetSlug")) {
+        if (dataset === config.get("viirs.datasetSlug")) {
           logger.debug("Requesting viirs alerts");
           alerts = await AlertsService.getViirsByGeostore(geostore, range);
-        } else if (dataset === config.get("gladDatasetSlug")) {
+        } else if (dataset === config.get("glad.datasetSlug")) {
           logger.debug("Requesting glad alerts");
           alerts = await AlertsService.getGladByGeostore(geostore, range);
         }

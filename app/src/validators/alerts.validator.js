@@ -4,7 +4,7 @@ const config = require("config");
 
 class AlertsValidator {
   static isValidDataset(property) {
-    return property === config.get("viirsDatasetSlug") || property === config.get("gladDatasetSlug");
+    return property === config.get("viirs.datasetSlug") || property === config.get("glad.datasetSlug");
   }
 
   static isValidFormat(property) {

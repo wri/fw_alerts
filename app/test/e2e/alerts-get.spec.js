@@ -29,7 +29,7 @@ describe("Get alerts tests", function () {
   it("Get alerts for the glad dataset should return a 200 response (happy case)", async function () {
     const firstDay = moment().subtract(365, "days");
 
-    nock(process.env.GLAD_ALERTS_API_URL)
+    nock(config.get("glad.alertsAPI.url"))
       .get("/v1/glad-alerts/download")
       .query({
         period: `${firstDay.format("YYYY-MM-DD")},${moment().format("YYYY-MM-DD")}`,
@@ -77,7 +77,7 @@ describe("Get alerts tests", function () {
         "x-api-key": config.get("gfwDataApi.apiKey")
       }
     })
-      .get(`/dataset/${config.get("viirsDataset")}/latest/query`)
+      .get(`/dataset/${config.get("viirs.dataset")}/latest/query`)
       .query({
         sql: `select latitude, longitude, alert__date from data where alert__date > '${dateFilter}'`,
         geostore_id: "ddc18d3a0692eea844f687c6d0fd3002",
