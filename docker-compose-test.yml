@@ -11,4 +11,4 @@ services:
       NODE_PATH: app/src
       CT_URL: http://127.0.0.1:9000
       GLAD_ALERTS_API_URL: http://127.0.0.1:9000
-    command: test
+    command: node node_modules/.bin/grunt --gruntfile app/Gruntfile.js e2eTest
