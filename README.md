@@ -19,7 +19,7 @@ Dependencies on other Microservices:
 Start by cloning the repository from github to your execution environment
 
 ```
-git clone https://github.com/wri/fw_alerts.git && cd fw-alerts
+git clone https://github.com/wri/fw_alerts.git && cd fw_alerts
 ```
 
 After that, follow one of the instructions below:
