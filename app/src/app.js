@@ -5,7 +5,6 @@ const koaLogger = require("koa-logger");
 const validate = require("koa-validate");
 const loader = require("loader");
 const convert = require("koa-convert");
-const koaSimpleHealthCheck = require("koa-simple-healthcheck");
 const ErrorSerializer = require("serializers/error.serializer");
 
 const koaBody = require("koa-body")({
@@ -20,7 +19,6 @@ const app = new Koa();
 validate(app);
 
 app.use(convert(koaBody));
-app.use(koaSimpleHealthCheck());
 
 app.use(async (ctx, next) => {
   try {
