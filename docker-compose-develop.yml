@@ -2,20 +2,24 @@ version: "3.5"
 services:
   develop:
     build: .
+    container_name: fw-alerts-develop
     ports:
       - "4201:4201"
-    container_name: fw-alerts
     environment:
-      PORT: 4201
       NODE_PATH: app/src
-      CT_URL: https://api.resourcewatch.org
+      NODE_ENV: dev
+      PORT: 4201
+      LOGGER_LEVEL: debug
+      SUPPRESS_NO_CONFIG_WARNING: "true"
+      CONTROL_TOWER_URL: https://api.resourcewatch.org
       GLAD_ALERTS_API_URL: https://api.resourcewatch.org
-    command: develop
     volumes:
       - ./app:/opt/fw-alerts/app
     networks:
       - gfw-alerts-network
       - gfw-network
+    command: node node_modules/.bin/grunt --gruntfile app/Gruntfile.js
+
 networks:
   gfw-alerts-network:
     name: gfw-alerts-network
