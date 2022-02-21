@@ -6,6 +6,10 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+}
+
 
 # Docker image for FW Template app
 module "app_docker_image" {
@@ -15,20 +19,8 @@ module "app_docker_image" {
   tag = local.container_tag
 }
 
-module "lb_listener_rule" {
-  source = "./modules/lb_listener_rule"
-  container_port = var.container_port
-  lb_target_group_arn = module.fargate_autoscaling.lb_target_group_arn
-  listener_arn = data.terraform_remote_state.fw_core.outputs.lb_listener_arn
-  project_prefix = var.project_prefix
-  path_pattern = ["/v1/fw-alerts*"]
-  tags = local.tags
-  vpc_id = data.terraform_remote_state.core.outputs.vpc_id
-  priority = 2
-}
-
 module "fargate_autoscaling" {
-  source  = "git::https://github.com/wri/gfw-terraform-modules.git//terraform/modules/fargate_autoscaling?ref=v0.5.1"
+  source  = "git::https://github.com/wri/gfw-terraform-modules.git//terraform/modules/fargate_autoscaling_v2?ref=v0.5.5"
   project = var.project_prefix
   tags = local.fargate_tags
   vpc_id = data.terraform_remote_state.core.outputs.vpc_id
@@ -54,6 +46,14 @@ module "fargate_autoscaling" {
     data.terraform_remote_state.fw_core.outputs.gfw_data_api_key_secret_policy_arn,
   ]
   container_definition = data.template_file.container_definition.rendered
+
+  # Listener rule variables
+  lb_target_group_arn = module.fargate_autoscaling.lb_target_group_arn
+  listener_arn = data.terraform_remote_state.fw_core.outputs.lb_listener_arn
+  project_prefix = var.project_prefix
+  path_pattern = ["/api/v1/fw-alerts*","/api/v1/fw_alerts/healthcheck"]
+  health_check_path = "/api/v1/fw_alerts/healthcheck"
+  priority = 2
 }
 
 
@@ -66,11 +66,16 @@ data "template_file" "container_definition" {
     container_name = var.project_prefix
     container_port = var.container_port
     log_group = aws_cloudwatch_log_group.default.name
-    log_level = var.log_level
+    logger_level = var.logger_level
     db_secret_arn = data.terraform_remote_state.core.outputs.document_db_secrets_arn
-    data_bucket = data.terraform_remote_state.fw_core.outputs.data_bucket
-    redis_endpoint = data.terraform_remote_state.core.outputs.redis_replication_group_primary_endpoint_address
     gfw_data_api_key = data.terraform_remote_state.fw_core.outputs.gfw_data_api_key_secret_arn
+
+    node_path = var.node_path 
+    node_env = var.node_env 
+    port = var.container_port
+    suppress_no_config_warning = var.suppress_no_config_warning 
+    control_tower_url = var.control_tower_url 
+    glad_alerts_api_url = var.glad_alerts_api_url 
   }
 
 }
