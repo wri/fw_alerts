@@ -17,7 +17,7 @@ variable "container_port" {
   default = 80
   type    = number
 }
-variable "log_level" {
+variable "logger_level" {
   type = string
 }
 variable "log_retention" {
@@ -51,5 +51,22 @@ variable "auto_scaling_min_capacity" {
 }
 
 variable "git_sha" {
+  type = string
+}
+
+variable "node_path" {
+  type = string
+  default = "app/src"
+}
+variable "node_env" {
+  type = string
+}
+variable "suppress_no_config_warning" {
+  type = string
+}
+variable "control_tower_url" {
+  type = string
+}
+variable "glad_alerts_api_url" {
   type = string
 }

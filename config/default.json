@@ -1,0 +1,22 @@
+{
+  "logger": {
+    "name": "fw-alerts",
+    "toFile": false,
+    "dirLogFile": null
+  },
+  "service": {
+    "name": "FW alerts",
+    "port": 4200
+  },
+  "viirs": {
+    "datasetSlug": "viirs",
+    "dataset": "nasa_viirs_fire_alerts"
+  },
+  "gfwDataApi": {
+    "url": "https://data-api.globalforestwatch.org",
+    "apiKey": null
+  },
+  "glad": {
+    "datasetSlug": "umd_as_it_happens"
+  }
+}
