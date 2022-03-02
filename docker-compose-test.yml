@@ -11,6 +11,6 @@ services:
       PORT: 4200
       LOGGER_LEVEL: debug
       SUPPRESS_NO_CONFIG_WARNING: "true"
-      CONTROL_TOWER_URL: http://127.0.0.1:9000
+      CT_URL: http://127.0.0.1:9000
       GLAD_ALERTS_API_URL: http://127.0.0.1:9000
     command: node node_modules/.bin/grunt --gruntfile app/Gruntfile.js e2eTest

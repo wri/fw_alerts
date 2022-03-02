@@ -13,7 +13,7 @@
     "apiKey": "GFW_DATA_API__API_KEY"
   },
   "controlTower": {
-    "url": "CONTROL_TOWER_URL"
+    "url": "CT_URL"
   },
   "glad": {
     "alertsAPI": {
