@@ -66,16 +66,16 @@ data "template_file" "container_definition" {
     container_name = var.project_prefix
     container_port = var.container_port
     log_group = aws_cloudwatch_log_group.default.name
-    logger_level = var.logger_level
     db_secret_arn = data.terraform_remote_state.core.outputs.document_db_secrets_arn
-    gfw_data_api_key = data.terraform_remote_state.fw_core.outputs.gfw_data_api_key_secret_arn
 
-    node_path = var.node_path 
-    node_env = var.node_env 
-    port = var.container_port
-    suppress_no_config_warning = var.suppress_no_config_warning 
-    control_tower_url = var.control_tower_url 
-    glad_alerts_api_url = var.glad_alerts_api_url 
+    LOGGER_LEVEL = var.logger_level
+    GFW_DATA_API__API_KEY = data.terraform_remote_state.fw_core.outputs.gfw_data_api_key_secret_arn
+    NODE_PATH = var.node_path
+    NODE_ENV = var.node_env
+    PORT = var.container_port
+    SUPPRESS_NO_CONFIG_WARNING = var.suppress_no_config_warning
+    CT_URL = var.control_tower_url
+    GLAD_ALERTS_API_URL = var.glad_alerts_api_url
   }
 
 }
