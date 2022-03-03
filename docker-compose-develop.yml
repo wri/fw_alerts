@@ -11,7 +11,7 @@ services:
       PORT: 4201
       LOGGER_LEVEL: debug
       SUPPRESS_NO_CONFIG_WARNING: "true"
-      CONTROL_TOWER_URL: https://api.resourcewatch.org
+      CT_URL: https://api.resourcewatch.org
       GLAD_ALERTS_API_URL: https://api.resourcewatch.org
     volumes:
       - ./app:/opt/fw-alerts/app
