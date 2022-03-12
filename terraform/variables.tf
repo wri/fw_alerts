@@ -66,7 +66,9 @@ variable "suppress_no_config_warning" {
 }
 variable "control_tower_url" {
   type = string
+  default = "https://api.resourcewatch.org"
 }
 variable "glad_alerts_api_url" {
   type = string
+  default = "https://api.resourcewatch.org"
 }
