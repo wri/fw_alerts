@@ -10,3 +10,6 @@ node_env = "staging"
 suppress_no_config_warning = "true"
 control_tower_url = "https://api.resourcewatch.org"
 glad_alerts_api_url = "https://api.resourcewatch.org"
+
+healthcheck_path = "/v1/fw_alerts/healthcheck"
+healthcheck_sns_emails = ["server@3sidedcube.com"]
