@@ -19,6 +19,22 @@ const loggedInUserService = require("./services/LoggedInUserService");
 const app = new Koa();
 validate(app);
 
+/**
+ * Sentry
+ */
+ Sentry.init({ dsn: "https://d8717108825844499688d0ff206ff9f8@o163691.ingest.sentry.io/6262383" });
+
+ app.on("error", (err, ctx) => {
+   Sentry.withScope(function (scope) {
+     scope.addEventProcessor(function (event) {
+       return Sentry.Handlers.parseRequest(event, ctx.request);
+     });
+     Sentry.captureException(err);
+   });
+ });
+ myUndefinedAlertFunction();
+ /** */
+
 app.use(cors());
 app.use(convert(koaBody));
 
