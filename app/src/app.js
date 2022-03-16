@@ -7,6 +7,7 @@ const validate = require("koa-validate");
 const loader = require("loader");
 const convert = require("koa-convert");
 const ErrorSerializer = require("serializers/error.serializer");
+const Sentry = require("@sentry/node");
 
 const koaBody = require("koa-body")({
   multipart: true,
@@ -22,18 +23,17 @@ validate(app);
 /**
  * Sentry
  */
- Sentry.init({ dsn: "https://d8717108825844499688d0ff206ff9f8@o163691.ingest.sentry.io/6262383" });
+Sentry.init({ dsn: "https://d8717108825844499688d0ff206ff9f8@o163691.ingest.sentry.io/6262383" });
 
- app.on("error", (err, ctx) => {
-   Sentry.withScope(function (scope) {
-     scope.addEventProcessor(function (event) {
-       return Sentry.Handlers.parseRequest(event, ctx.request);
-     });
-     Sentry.captureException(err);
-   });
- });
- myUndefinedAlertFunction();
- /** */
+app.on("error", (err, ctx) => {
+  Sentry.withScope(function (scope) {
+    scope.addEventProcessor(function (event) {
+      return Sentry.Handlers.parseRequest(event, ctx.request);
+    });
+    Sentry.captureException(err);
+  });
+});
+/** */
 
 app.use(cors());
 app.use(convert(koaBody));
