@@ -72,3 +72,9 @@ variable "glad_alerts_api_url" {
   type = string
   default = "https://api.resourcewatch.org"
 }
+variable "healthcheck_path" {
+  type = string
+}
+variable "healthcheck_sns_emails" {
+  type = list(string)
+}
