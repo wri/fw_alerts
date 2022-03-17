@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint app --fix"
+    "lint": "eslint app --fix",
+    "docs": "serve docs"
   },
   "keywords": [],
   "author": {

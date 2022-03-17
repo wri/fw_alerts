@@ -27,7 +27,7 @@ services:
     container_name: fw-alerts-docs
     volumes:
       - ./docs:/opt/fw-alerts/docs
-    command: yarn run docs -l 4201
+    command: yarn run docs -l 42010
 
 networks:
   gfw-alerts-network:
