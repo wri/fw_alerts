@@ -20,6 +20,15 @@ services:
       - gfw-network
     command: node node_modules/.bin/grunt --gruntfile app/Gruntfile.js
 
+  docs:
+    build: .
+    ports:
+      - "42010:42010"
+    container_name: fw-alerts-docs
+    volumes:
+      - ./docs:/opt/fw-alerts/docs
+    command: yarn run docs -l 4201
+
 networks:
   gfw-alerts-network:
     name: gfw-alerts-network
