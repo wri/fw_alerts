@@ -70,7 +70,7 @@ variable "control_tower_url" {
 }
 variable "glad_alerts_api_url" {
   type = string
-  default = "https://api.resourcewatch.org/v1"
+  default = "https://api.resourcewatch.org"
 }
 variable "healthcheck_path" {
   type = string
