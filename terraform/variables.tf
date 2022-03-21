@@ -75,7 +75,6 @@ variable "glad_alerts_api_url" {
 variable "healthcheck_path" {
   type = string
 }
-
 variable "healthcheck_sns_emails" {
   type = list(string)
 }
