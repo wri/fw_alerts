@@ -60,5 +60,9 @@ class AlertsRouter {
 }
 
 router.get("/:dataset/:geostore", AlertsValidator.get, AlertsRouter.getAlertsByGeostore);
+router.get("/fail", ctx => {
+  ctx.status = 500;
+  throw new Error("Test Fail");
+});
 
 module.exports = router;
