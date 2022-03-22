@@ -23,7 +23,10 @@ validate(app);
 /**
  * Sentry
  */
-Sentry.init({ dsn: "https://d8717108825844499688d0ff206ff9f8@o163691.ingest.sentry.io/6262383" });
+Sentry.init({
+  dsn: "https://d8717108825844499688d0ff206ff9f8@o163691.ingest.sentry.io/6262383",
+  environment: process.env.NODE_ENV
+});
 
 app.on("error", (err, ctx) => {
   Sentry.withScope(function (scope) {
@@ -58,7 +61,7 @@ app.use(async (ctx, next) => {
     }
 
     ctx.body = ErrorSerializer.serializeError(ctx.status, error.message);
-    if (process.env.NODE_ENV === "prod" && ctx.status === 500) {
+    if (process.env.NODE_ENV === "production" && ctx.status === 500) {
       ctx.body = "Unexpected error";
     }
     ctx.response.type = "application/vnd.api+json";
