@@ -6,7 +6,6 @@ services:
     ports:
       - "4201:4201"
     environment:
-      NODE_PATH: app/src
       NODE_ENV: dev
       PORT: 4201
       LOGGER_LEVEL: debug
@@ -15,10 +14,11 @@ services:
       GLAD_ALERTS_API_URL: https://api.resourcewatch.org
     volumes:
       - ./app:/opt/fw-alerts/app
+      - ./nodemon.json:/opt/fw-alerts/nodemon.json
     networks:
       - gfw-alerts-network
       - gfw-network
-    command: node node_modules/.bin/grunt --gruntfile app/Gruntfile.js
+    command: yarn dev
 
   docs:
     build: .

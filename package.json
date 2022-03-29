@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint app --fix",
-    "docs": "serve docs"
+    "docs": "serve docs",
+    "build": "babel app/src --extensions .js,.ts -d dist",
+    "start": "yarn run build && node dist/app.js",
+    "restart": "rimraf dist && yarn run start",
+    "dev": "nodemon --exec yarn run restart",
+    "test": "mocha --exit dist/test/e2e/**/*.spec.js"
   },
   "keywords": [],
   "author": {
@@ -19,6 +24,13 @@
   },
   "devDependencies": {
     "@3sidedcube/prettier-config": "^1.0.0",
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "chai": "^4.2.0",
     "chai-datetime": "^1.5.0",
     "chai-http": "^4.3.0",
@@ -27,21 +39,14 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-mocha": "^6.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "grunt": "^1.3.0",
-    "grunt-cli": "^1.3.2",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-jshint": "^2.1.0",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-express-server": "^0.5.4",
-    "grunt-mocha-test": "^0.13.3",
-    "grunt-notify": "^0.4.5",
-    "grunt-simple-nyc": "^3.0.1",
-    "load-grunt-tasks": "^5.1.0",
     "mocha": "^7.1.1",
     "nock": "^12.0.3",
+    "nodemon": "^2.0.15",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
-    "serve": "^13.0.2"
+    "rimraf": "^3.0.2",
+    "serve": "^13.0.2",
+    "typescript": "^4.6.3"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
