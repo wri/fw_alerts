@@ -38,6 +38,11 @@ app.on("error", (err, ctx) => {
 });
 /** */
 
+app.use((ctx, next) => {
+  return next().then(function () {
+    ctx.set("Cache-Control", "private");
+  });
+});
 app.use(cors());
 app.use(convert(koaBody));
 
