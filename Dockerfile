@@ -13,7 +13,7 @@ RUN yarn global add grunt-cli bunyan
 
 RUN mkdir -p /opt/$NAME
 COPY package.json /opt/$NAME/package.json
-COPY .eslintrc /opt/$NAME/.eslintrc
+COPY yarn.lock /opt/$NAME/yarn.lock
 RUN cd /opt/$NAME && yarn
 
 COPY config /opt/$NAME/config
@@ -22,6 +22,7 @@ WORKDIR /opt/$NAME
 
 COPY ./app /opt/$NAME/app
 COPY ./.babelrc /opt/$NAME/.babelrc
+COPY .eslintrc /opt/$NAME/.eslintrc
 COPY ./tsconfig.json /opt/$NAME/tsconfig.json
 RUN yarn build
 
