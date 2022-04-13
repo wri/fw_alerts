@@ -1,0 +1,103 @@
+openapi: 3.1.0
+info:
+  title: fw_alerts
+  version: '1.0'
+servers:
+  - url: 'https://api.resourcewatch.org/v1'
+    description: Production
+  - url: 'https://gfw-staging.globalforestwatch.org/v1'
+    description: Staging
+  - url: 'http://localhost:4201/v1'
+    description: Local
+paths:
+  '/fw-alerts/{dataset}/{geostore}':
+    parameters:
+      - schema:
+          type: string
+        name: dataset
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: geostore
+        in: path
+        required: true
+    get:
+      summary: Get Alerts By Geostore
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-alerts-by-geostore
+      description: ''
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: range
+          description: Number of days in the past to fetch alerts from
+        - schema:
+            type: string
+            enum:
+              - csv
+              - json
+            default: json
+          in: query
+          name: output
+  /fw_alerts/healthcheck:
+    get:
+      summary: Healthcheck
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Healthcheck'
+      operationId: get-fw_api-healthcheck
+      security: []
+components:
+  schemas: {}
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+  responses:
+    Error:
+      description: Error Response
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            properties:
+              errors:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                items:
+                  required:
+                    - status
+                    - detail
+                  properties:
+                    status:
+                      type: number
+                    detail:
+                      type: string
+                      minLength: 1
+            required:
+              - errors
+          examples: {}
+    Healthcheck:
+      description: Healthcheck response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uptime:
+                type: number
+          examples: {}
+security:
+  - Authorization: []
