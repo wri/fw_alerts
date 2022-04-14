@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+/* eslint-disable */
 const nock = require("nock");
 const chai = require("chai");
 const config = require("config");
