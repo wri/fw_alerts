@@ -27,7 +27,7 @@ services:
       - "4200:4200"
     environment:
       NODE_ENV: test
-      PORT: 4200
+      PORT: 0
       LOGGER_LEVEL: debug
       SUPPRESS_NO_CONFIG_WARNING: "true"
       CT_URL: http://127.0.0.1:9000
