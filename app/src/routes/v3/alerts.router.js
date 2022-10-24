@@ -13,11 +13,11 @@ class AlertsRouter {
     let { minDate, dataset } = ctx.query;
     let { geostore } = ctx.params;
 
-    if(!Array.isArray(dataset)) dataset = [dataset]
+    if (!Array.isArray(dataset)) dataset = [dataset];
 
     if (geostore) {
       try {
-        const alerts = await V3AlertService.getAlerts(dataset,geostore, minDate);
+        const alerts = await V3AlertService.getAlerts(dataset, geostore, minDate);
         ctx.body = alerts;
       } catch (err) {
         logger.error(err);

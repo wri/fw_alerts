@@ -18,7 +18,7 @@ class AlertsRouter {
     const { geostore } = ctx.params;
     const output = ctx.query.output || "json";
 
-    console.log("WORKING")
+    console.log("WORKING");
 
     if (geostore) {
       let alerts = [];

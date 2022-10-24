@@ -1,23 +1,21 @@
 import config from "config";
 import logger from "../logger";
 import axios from "axios";
-import client from './redisClient.service';
-const datasets = require('./datasets.service').default
+import client from "./redisClient.service";
+const datasets = require("./datasets.service").default;
 
-const formatDate = (minDate) => {
+const formatDate = minDate => {
   let date = new Date();
   date.setDate(date.getDate() - minDate);
-  console.log(date)
+  console.log(date);
   return `${date.getFullYear()}-${("0" + date.getMonth()).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
-}
+};
 
 class V3AlertService {
   static async getAlerts(datasetArray, geostoreId, minDate) {
-
     const alertsArray = [];
 
     for await (const dataset of datasetArray) {
-
       logger.info(`Getting alerts for dataset ${dataset} and geostore ${geostoreId}`);
 
       // build url and query
@@ -30,15 +28,17 @@ class V3AlertService {
       // make redis key string
       const keyString = geostoreId.toString() + dataset.toString() + minDate.toString();
       const cachedAlerts = await client.get(keyString);
-      if (cachedAlerts) alertsArray.push(...JSON.parse(cachedAlerts))
+      if (cachedAlerts) alertsArray.push(...JSON.parse(cachedAlerts));
       else {
-        let url = `/dataset/${apiConfig.datastoreId
-          }/latest/query/json?format=json&geostore_origin=rw&geostore_id=${geostoreId}&sql=select latitude, longitude, ${dateKey} as "date"${confidenceKey ? ", " + confidenceKey + ` as "confidence"` : ""
-          } from ${tableName} where ${dateKey} > '${formatDate(minDate)}'`;
-          
+        let url = `/dataset/${
+          apiConfig.datastoreId
+        }/latest/query/json?format=json&geostore_origin=rw&geostore_id=${geostoreId}&sql=select latitude, longitude, ${dateKey} as "date"${
+          confidenceKey ? ", " + confidenceKey + ` as "confidence"` : ""
+        } from ${tableName} where ${dateKey} > '${formatDate(minDate)}'`;
+
         try {
           const baseURL = config.get("alertsAPI.url");
-          console.log(baseURL, url)
+          console.log(baseURL, url);
           const response = await axios.default({
             baseURL,
             url,
@@ -49,20 +49,18 @@ class V3AlertService {
           });
 
           const alerts = response.data;
-          console.log(alerts.data)
-          const midnight = new Date().setHours(23,59,59);
-          const expire = Math.floor((midnight-Date.now())/1000);
-          client.set(keyString, JSON.stringify(alerts.data), 'EX', expire); // set to expire at midnight
-          alertsArray.push(...alerts.data)
-        }
-        catch (e) {
+          console.log(alerts.data);
+          const midnight = new Date().setHours(23, 59, 59);
+          const expire = Math.floor((midnight - Date.now()) / 1000);
+          client.set(keyString, JSON.stringify(alerts.data), "EX", expire); // set to expire at midnight
+          alertsArray.push(...alerts.data);
+        } catch (e) {
           logger.error("Error while fetching alerts", e);
         }
       }
     }
 
     return alertsArray;
-
   }
 }
 module.exports = V3AlertService;
