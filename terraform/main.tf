@@ -75,6 +75,8 @@ data "template_file" "container_definition" {
     suppress_no_config_warning = var.suppress_no_config_warning
     control_tower_url = var.control_tower_url
     glad_alerts_api_url = var.glad_alerts_api_url
+    redis_endpoint             = data.terraform_remote_state.core.outputs.redis_replication_group_primary_endpoint_address
+    redis_port                 = data.terraform_remote_state.core.outputs.redis_replication_group_port
   }
 
 }

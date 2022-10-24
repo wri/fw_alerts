@@ -1,10 +1,7 @@
 const logger = require("logger");
 const Router = require("koa-router");
-const ConverterService = require("services/converter.service");
-const AlertsValidator = require("validators/alerts.validator");
-const AlertsService = require("services/alerts.service");
+const V3AlertService = require("services/V3alerts.service");
 const ErrorSerializer = require("serializers/error.serializer");
-const config = require("config");
 
 const router = new Router({
   prefix: "/alerts"
@@ -13,15 +10,15 @@ const router = new Router({
 class AlertsRouter {
   static async getAlertsByGeostore(ctx) {
     logger.debug("Getting alerts by geostore");
-    const { dataset } = ctx.params;
-    const { range } = ctx.query;
-    const { geostore } = ctx.params;
-    const output = ctx.query.output || "json";
+    let { minDate, dataset } = ctx.query;
+    let { geostore } = ctx.params;
+
+    if(!Array.isArray(dataset)) dataset = [dataset]
 
     if (geostore) {
-      let alerts = [];
       try {
-        
+        const alerts = await V3AlertService.getAlerts(dataset,geostore, minDate);
+        ctx.body = alerts;
       } catch (err) {
         logger.error(err);
         const statusCode = err.statusCode || 500;
@@ -35,6 +32,6 @@ class AlertsRouter {
   }
 }
 
-router.get("/:geostore", AlertsValidator.get, AlertsRouter.getAlertsByGeostore);
+router.get("/:geostore", AlertsRouter.getAlertsByGeostore);
 
 module.exports = router;

@@ -1,79 +1,68 @@
 import config from "config";
 import logger from "../logger";
 import axios from "axios";
-const csv = require("csvtojson");
+import client from './redisClient.service';
+const datasets = require('./datasets.service').default
+
+const formatDate = (minDate) => {
+  let date = new Date();
+  date.setDate(date.getDate() - minDate);
+  console.log(date)
+  return `${date.getFullYear()}-${("0" + date.getMonth()).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+}
 
 class V3AlertService {
-  static async getAlerts(dataset, geostoreId) {
-    logger.info(`Getting alerts for dataset ${dataset} and geostore ${geostoreId}`);
+  static async getAlerts(datasetArray, geostoreId, minDate) {
 
-    // build url and query
-    const datasets = {
-      umd_as_it_happens: {
-        datastoreId: "umd_glad_landsat_alerts",
-        query: {
-          confidenceKey: "umd_glad_landsat_alerts__confidence",
-          dateKey: "umd_glad_landsat_alerts__date",
-          requiresMaxDate: true,
-          tableName: "umd_glad_landsat_alerts"
+    const alertsArray = [];
+
+    for await (const dataset of datasetArray) {
+
+      logger.info(`Getting alerts for dataset ${dataset} and geostore ${geostoreId}`);
+
+      // build url and query
+      let apiConfig = datasets[dataset];
+      if (!apiConfig) throw "Invalid dataset";
+      const { dateKey, confidenceKey, tableName } = apiConfig.query;
+
+      if (minDate && minDate > apiConfig.maxDate) minDate = apiConfig.maxDate;
+
+      // make redis key string
+      const keyString = geostoreId.toString() + dataset.toString() + minDate.toString();
+      const cachedAlerts = await client.get(keyString);
+      if (cachedAlerts) alertsArray.push(...JSON.parse(cachedAlerts))
+      else {
+        let url = `/dataset/${apiConfig.datastoreId
+          }/latest/query/json?format=json&geostore_origin=rw&geostore_id=${geostoreId}&sql=select latitude, longitude, ${dateKey} as "date"${confidenceKey ? ", " + confidenceKey + ` as "confidence"` : ""
+          } from ${tableName} where ${dateKey} > '${formatDate(minDate)}'`;
+          
+        try {
+          const baseURL = config.get("alertsAPI.url");
+          console.log(baseURL, url)
+          const response = await axios.default({
+            baseURL,
+            url,
+            method: "GET",
+            headers: {
+              "x-api-key": config.get("gfwApiKey.apiKey")
+            }
+          });
+
+          const alerts = response.data;
+          console.log(alerts.data)
+          const midnight = new Date().setHours(23,59,59);
+          const expire = Math.floor((midnight-Date.now())/1000);
+          client.set(keyString, JSON.stringify(alerts.data), 'EX', expire); // set to expire at midnight
+          alertsArray.push(...alerts.data)
         }
-      },
-      glad_sentinel_2: {
-        datastoreId: "umd_glad_sentinel2_alerts",
-        query: {
-          confidenceKey: "umd_glad_sentinel2_alerts__confidence",
-          dateKey: "umd_glad_sentinel2_alerts__date",
-          requiresMaxDate: true,
-          tableName: "umd_glad_sentinel2_alerts"
-        }
-      },
-      wur_radd_alerts: {
-        datastoreId: "wur_radd_alerts",
-        query: {
-          confidenceKey: "wur_radd_alerts__confidence",
-          dateKey: "wur_radd_alerts__date",
-          requiresMaxDate: true,
-          tableName: "wur_radd_alerts"
-        }
-      },
-      viirs: {
-        datastoreId: "nasa_viirs_fire_alerts",
-        query: {
-          dateKey: "alert__date",
-          requiresMaxDate: false,
-          tableName: "mytable"
+        catch (e) {
+          logger.error("Error while fetching alerts", e);
         }
       }
-    };
-
-    let apiConfig = datasets[dataset];
-    if (!apiConfig) throw "Invalid dataset";
-    const { dateKey, confidenceKey, tableName } = apiConfig.query;
-
-    let url = `/dataset/${
-      apiConfig.datastoreId
-    }/latest/query/csv?format=json&geostore_origin=rw&geostore_id=${geostoreId}&sql=select latitude, longitude, ${dateKey} as "date" ${
-      confidenceKey ? ", " + confidenceKey + ` as "confidence"` : ""
-    } from ${tableName} ORDER BY ${dateKey} DESC LIMIT 10`;
-
-    try {
-      const baseURL = config.get("alertsAPI.url");
-      const response = await axios.default({
-        baseURL,
-        url,
-        method: "GET",
-        headers: {
-          "x-api-key": config.get("gfwApiKey.apiKey")
-        }
-      });
-
-      const alerts = response.data;
-
-      return alerts ? alerts : [];
-    } catch (e) {
-      logger.error("Error while fetching alerts", e);
-      return []; // log the error but still return
     }
+
+    return alertsArray;
+
   }
 }
 module.exports = V3AlertService;

@@ -61,6 +61,7 @@
     "axios": "^0.21.1",
     "bunyan": "^1.8.5",
     "config": "^3.3.0",
+    "ioredis": "^5.2.3",
     "json2csv": "^3.7.3",
     "jsonapi-serializer": "2.1.1",
     "koa": "^2.13.4",
