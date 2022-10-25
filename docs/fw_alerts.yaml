@@ -113,6 +113,13 @@ components:
           type: string
         confidence:
           type: string
+        alertType:
+          type: string
+          enum:
+            - GLAD
+            - GLADS2
+            - RADD
+            - VIIRS
   securitySchemes:
     Authorization:
       type: http
