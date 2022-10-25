@@ -39,7 +39,7 @@ export default {
       dateKey: "alert__date",
       requiresMaxDate: false,
       tableName: "mytable",
-      maxDate: 7
+      maxDate: 12
     }
   }
 };

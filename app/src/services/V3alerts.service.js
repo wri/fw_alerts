@@ -49,11 +49,14 @@ class V3AlertService {
           });
 
           const alerts = response.data;
-          console.log(alerts.data);
+          const alertsToSend = alerts.data.map(alert => {
+            alert.alertType = dataset
+            return alert
+          })
           const midnight = new Date().setHours(23, 59, 59);
           const expire = Math.floor((midnight - Date.now()) / 1000);
-          client.set(keyString, JSON.stringify(alerts.data), "EX", expire); // set to expire at midnight
-          alertsArray.push(...alerts.data);
+          client.set(keyString, JSON.stringify(alertsToSend), "EX", expire); // set to expire at midnight
+          alertsArray.push(...alertsToSend);
         } catch (e) {
           logger.error("Error while fetching alerts", e);
         }
