@@ -7,8 +7,7 @@ const datasets = require("./datasets.service").default;
 const formatDate = minDate => {
   let date = new Date();
   date.setDate(date.getDate() - minDate);
-  console.log(date);
-  return `${date.getFullYear()}-${("0" + date.getMonth()).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+  return `${date.getFullYear()}-${("0" + (date.getMonth()+1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
 };
 
 class V3AlertService {
