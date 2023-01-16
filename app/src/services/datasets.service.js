@@ -7,7 +7,7 @@ export default {
       dateKey: "umd_glad_landsat_alerts__date",
       requiresMaxDate: true,
       tableName: "umd_glad_landsat_alerts",
-      maxDate: 365
+      maxDate: 184
     }
   },
   GLADS2: {
@@ -18,7 +18,7 @@ export default {
       dateKey: "umd_glad_sentinel2_alerts__date",
       requiresMaxDate: true,
       tableName: "umd_glad_sentinel2_alerts",
-      maxDate: 365
+      maxDate: 184
     }
   },
   RADD: {
@@ -29,7 +29,7 @@ export default {
       dateKey: "wur_radd_alerts__date",
       requiresMaxDate: true,
       tableName: "wur_radd_alerts",
-      maxDate: 365
+      maxDate: 184
     }
   },
   VIIRS: {
