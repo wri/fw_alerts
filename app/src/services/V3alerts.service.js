@@ -7,7 +7,7 @@ const datasets = require("./datasets.service").default;
 const formatDate = minDate => {
   let date = new Date();
   date.setDate(date.getDate() - minDate);
-  return `${date.getFullYear()}-${("0" + (date.getMonth()+1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+  return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
 };
 
 class V3AlertService {
@@ -49,9 +49,9 @@ class V3AlertService {
 
           const alerts = response.data;
           const alertsToSend = alerts.data.map(alert => {
-            alert.alertType = dataset
-            return alert
-          })
+            alert.alertType = dataset;
+            return alert;
+          });
           const midnight = new Date().setHours(23, 59, 59);
           const expire = Math.floor((midnight - Date.now()) / 1000);
           client.set(keyString, JSON.stringify(alertsToSend), "EX", expire); // set to expire at midnight
