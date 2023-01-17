@@ -43,7 +43,6 @@ app.use((ctx, next) => {
     ctx.set("Cache-Control", "private");
   });
 });
-
 app.use(cors());
 app.use(convert(koaBody));
 
