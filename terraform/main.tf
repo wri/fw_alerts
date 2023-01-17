@@ -51,7 +51,7 @@ module "fargate_autoscaling" {
   lb_target_group_arn = module.fargate_autoscaling.lb_target_group_arn
   listener_arn = data.terraform_remote_state.fw_core.outputs.lb_listener_arn
   project_prefix = var.project_prefix
-  path_pattern = ["/v1/fw-alerts*","/v1/fw_alerts/healthcheck"]
+  path_pattern = ["/v1/fw-alerts*","/v1/fw_alerts/healthcheck","/v3/alerts*"]
   health_check_path = "/v1/fw_alerts/healthcheck"
   priority = 2
 }
@@ -70,12 +70,14 @@ data "template_file" "container_definition" {
     db_secret_arn = data.terraform_remote_state.core.outputs.document_db_secrets_arn
     gfw_data_api_key = data.terraform_remote_state.fw_core.outputs.gfw_data_api_key_secret_arn
 
-    node_path = var.node_path
     node_env = var.node_env
     port = var.container_port
     suppress_no_config_warning = var.suppress_no_config_warning
     control_tower_url = var.control_tower_url
+    ALERTS_API_URL          = var.alerts_api_url
     glad_alerts_api_url = var.glad_alerts_api_url
+    redis_endpoint             = data.terraform_remote_state.core.outputs.redis_replication_group_primary_endpoint_address
+    redis_port                 = data.terraform_remote_state.core.outputs.redis_replication_group_port
   }
 
 }

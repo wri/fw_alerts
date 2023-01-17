@@ -8,9 +8,14 @@
   "viirs": {
     "dataset": "VIIRS_DATASET"
   },
-  "gfwDataApi": {
-    "url": "GFW_DATA_API__URL",
+  "gfwApiKey": {
     "apiKey": "GFW_DATA_API_KEY"
+  },
+  "redis": {
+    "url": "REDIS_URL" 
+  },
+  "alertsAPI": {
+    "url": "ALERTS_API_URL"
   },
   "controlTower": {
     "url": "CT_URL"

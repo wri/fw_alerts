@@ -13,10 +13,6 @@
       "value": "${logger_level}"
     },
     {
-      "name": "NODE_PATH",
-      "value": "${node_path}"
-    },
-    {
       "name": "NODE_ENV",
       "value": "${node_env}"
     },
@@ -29,8 +25,20 @@
       "value": "${suppress_no_config_warning}"
     },
     {
+      "name": "REDIS_ENDPOINT",
+      "value": "${redis_endpoint}"
+    },
+    {
+      "name": "REDIS_URL",
+      "value": "redis://${redis_endpoint}:${redis_port}"
+    },
+    {
       "name": "CT_URL",
       "value": "${control_tower_url}"
+    },
+        {
+      "name": "ALERTS_API_URL",
+      "value": "${ALERTS_API_URL}"
     },
     {
       "name": "GLAD_ALERTS_API_URL",
