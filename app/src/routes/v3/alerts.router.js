@@ -14,14 +14,13 @@ class AlertsRouter {
     let { minDate, dataset } = ctx.query;
     let { geostore } = ctx.params;
 
-    if (!geostore.match(/^[0-9A-Fa-f]+$/)) ctx.throw(400, "invalid geostore id")
+    if (!geostore.match(/^[0-9A-Fa-f]+$/)) ctx.throw(400, "invalid geostore id");
     try {
       const intDate = parseInt(minDate);
-      if(intDate.toString() !== minDate) throw ""
-    }
-    catch(error) {
-      console.log(error)
-      ctx.throw(400, "minDate must be a positive integer number of days")
+      if (intDate.toString() !== minDate) throw "";
+    } catch (error) {
+      console.log(error);
+      ctx.throw(400, "minDate must be a positive integer number of days");
     }
 
     if (!Array.isArray(dataset)) dataset = [dataset];
