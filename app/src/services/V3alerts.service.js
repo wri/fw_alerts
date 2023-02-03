@@ -20,7 +20,7 @@ class V3AlertService {
       // build url and query
       let apiConfig = datasets[dataset];
       if (!apiConfig) throw "Invalid dataset";
-      const { dateKey, confidenceKey, tableName } = apiConfig.query;
+      const { dateKey, confidenceKey, tableName, requiresMaxDate } = apiConfig.query;
 
       if (minDate && minDate > apiConfig.maxDate) minDate = apiConfig.maxDate;
 
@@ -35,7 +35,7 @@ class V3AlertService {
           confidenceKey ? ", " + confidenceKey + ` as "confidence"` : ""
         } from ${tableName} where ${dateKey} > '${formatDate(minDate)}'`
         
-        if (apiConfig.requiresMaxDate) {
+        if (requiresMaxDate) {
           url += ` and ${dateKey} < '${formatDate(0)}'`;
         }
         
