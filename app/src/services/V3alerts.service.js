@@ -35,7 +35,7 @@ class V3AlertService {
           confidenceKey ? ", " + confidenceKey + ` as "confidence"` : ""
         } from ${tableName} where ${dateKey} > '${formatDate(minDate)}'`
         
-        if (requiresMaxDate) {
+        if (apiConfig.requiresMaxDate) {
           url += ` and ${dateKey} < '${formatDate(0)}'`;
         }
         
