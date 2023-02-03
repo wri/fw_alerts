@@ -28,7 +28,7 @@ class AlertsRouter {
     if (geostore) {
       try {
         const alerts = await V3AlertService.getAlerts(dataset, geostore, minDate);
-        ctx.body = alerts;
+        ctx.body = {data: alerts};
       } catch (err) {
         logger.error(err);
         const statusCode = err.statusCode || 500;
