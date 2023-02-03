@@ -27,6 +27,7 @@ class V3AlertService {
       // make redis key string
       const keyString = geostoreId.toString() + dataset.toString() + minDate.toString();
       const cachedAlerts = await client.get(keyString);
+      console.log(keyString, cachedAlerts)
       if (cachedAlerts) alertsArray.push(...JSON.parse(cachedAlerts));
       else {
         let url = `/dataset/${
