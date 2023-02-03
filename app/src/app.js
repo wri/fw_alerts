@@ -19,6 +19,7 @@ const loggedInUserService = require("./services/LoggedInUserService");
 
 const app = new Koa();
 validate(app);
+app.use(cors());
 
 /**
  * Sentry
@@ -43,7 +44,6 @@ app.use((ctx, next) => {
     ctx.set("Cache-Control", "private");
   });
 });
-app.use(cors());
 app.use(convert(koaBody));
 
 app.use(async (ctx, next) => {
