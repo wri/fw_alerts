@@ -33,12 +33,12 @@ class V3AlertService {
           apiConfig.datastoreId
         }/latest/query/json?format=json&geostore_origin=rw&geostore_id=${geostoreId}&sql=select latitude, longitude, ${dateKey} as "date"${
           confidenceKey ? ", " + confidenceKey + ` as "confidence"` : ""
-        } from ${tableName} where ${dateKey} > '${formatDate(minDate)}'`
-        
+        } from ${tableName} where ${dateKey} > '${formatDate(minDate)}'`;
+
         if (requiresMaxDate) {
           url += ` and ${dateKey} < '${formatDate(0)}'`;
         }
-        
+
         url += `ORDER BY ${dateKey} DESC LIMIT 5000`;
 
         try {
