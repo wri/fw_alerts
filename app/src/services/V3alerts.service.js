@@ -39,7 +39,7 @@ class V3AlertService {
           url += ` and ${dateKey} < '${formatDate(0)}'`;
         }
         
-        url += `ORDER BY ${dateKey} DESC LIMIT 5000`;
+        url += ` ORDER BY ${dateKey} DESC LIMIT 5000`;
 
         try {
           const baseURL = config.get("alertsAPI.url");
