@@ -71,8 +71,9 @@ class V3AlertService {
   }
 
   static async clearAlertsCache() {
-    await client.flushdb(function (err, succeeded) {
-      console.log(succeeded); // will be true if successfull
+    await client.flushall(function (err, succeeded) {
+      if(err) logger.error(err)
+      else logger.info(`Cache cleared with status ${succeeded}`)
     });
   }
 }
