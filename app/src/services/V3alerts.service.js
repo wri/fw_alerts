@@ -38,7 +38,7 @@ class V3AlertService {
         if (requiresMaxDate) {
           url += ` and ${dateKey} < '${formatDate(0)}'`;
         }
-        
+
         url += ` ORDER BY ${dateKey} DESC LIMIT 5000`;
 
         try {
