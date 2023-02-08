@@ -42,8 +42,8 @@ class AlertsRouter {
   }
 
   static async clearCache(ctx) {
-    await V3AlertService.clearAlertsCache()
-    ctx.status = 204
+    await V3AlertService.clearAlertsCache();
+    ctx.status = 204;
   }
 }
 
