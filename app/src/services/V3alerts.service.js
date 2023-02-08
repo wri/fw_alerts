@@ -39,7 +39,7 @@ class V3AlertService {
           url += ` and ${dateKey} < '${formatDate(0)}'`;
         }
 
-        url += `ORDER BY ${dateKey} DESC LIMIT 5000`;
+        url += ` ORDER BY ${dateKey} DESC LIMIT 5000`;
 
         try {
           const baseURL = config.get("alertsAPI.url");
@@ -68,6 +68,12 @@ class V3AlertService {
     }
 
     return alertsArray;
+  }
+
+  static async clearAlertsCache() {
+    await client.flushdb(function (err, succeeded) {
+      console.log(succeeded); // will be true if successfull
+    });
   }
 }
 module.exports = V3AlertService;
