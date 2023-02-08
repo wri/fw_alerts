@@ -69,5 +69,11 @@ class V3AlertService {
 
     return alertsArray;
   }
+
+  static async clearAlertsCache() {
+    await client.flushdb(function (err, succeeded) {
+      console.log(succeeded); // will be true if successfull
+    });
+  }
 }
 module.exports = V3AlertService;

@@ -40,8 +40,14 @@ class AlertsRouter {
       ctx.status = 404;
     }
   }
+
+  static async clearCache(ctx) {
+    await V3AlertService.clearAlertsCache()
+    ctx.status = 204
+  }
 }
 
 router.get("/:geostore", AlertsRouter.getAlertsByGeostore);
+router.delete("/clearCache", AlertsRouter.clearCache);
 
 module.exports = router;
