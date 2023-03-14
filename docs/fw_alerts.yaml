@@ -2,12 +2,14 @@ openapi: 3.1.0
 info:
   title: fw_alerts
   version: '1.0'
+  description: ''
+  summary: API wrapper around WRI alerts service
 servers:
-  - url: 'https://api.resourcewatch.org/v1'
+  - url: 'https://fw-api.globalforestwatch.org'
     description: Production
-  - url: 'https://gfw-staging.globalforestwatch.org/v1'
+  - url: 'https://staging-fw-api.globalforestwatch.org/'
     description: Staging
-  - url: 'http://localhost:4201/v1'
+  - url: 'http://localhost:4201'
     description: Local
 paths:
   '/fw-alerts/{dataset}/{geostore}':
@@ -24,7 +26,8 @@ paths:
         required: true
     get:
       summary: Get Alerts By Geostore
-      tags: []
+      tags:
+        - V1
       responses:
         '200':
           description: OK
@@ -51,14 +54,72 @@ paths:
   /fw_alerts/healthcheck:
     get:
       summary: Healthcheck
-      tags: []
+      tags:
+        - V1
       responses:
         '200':
           $ref: '#/components/responses/Healthcheck'
       operationId: get-fw_api-healthcheck
       security: []
+  '/v3/alerts/{geostoreId}':
+    parameters:
+      - schema:
+          type: string
+        name: geostoreId
+        in: path
+        required: true
+    get:
+      summary: Get geostore datasets
+      tags:
+        - V3
+      responses:
+        '200':
+          $ref: '#/components/responses/Alerts'
+        '401':
+          $ref: '#/components/responses/Error'
+      operationId: get-v3-alerts-geostoreId
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - GLAD
+              - GLADS2
+              - RADD
+              - VIIRS
+          in: query
+          name: dataset
+          required: true
+          description: One or more datasets to query
+        - schema:
+            type: integer
+          in: query
+          name: minDate
+          description: How many days ago to query
+          required: true
+      description: 'Endpoint to find one or more alert datasets for a given geostore. Multiple datasets can be queried as ?dataset=GLAD&dataset=VIIRS&dataset=RADD, etc. '
 components:
-  schemas: {}
+  schemas:
+    Alerts:
+      title: Alerts
+      x-stoplight:
+        id: lmvzwf860gwzb
+      type: object
+      properties:
+        latitude:
+          type: string
+        longitude:
+          type: string
+        date:
+          type: string
+        confidence:
+          type: string
+        alertType:
+          type: string
+          enum:
+            - GLAD
+            - GLADS2
+            - RADD
+            - VIIRS
   securitySchemes:
     Authorization:
       type: http
@@ -99,5 +160,16 @@ components:
               uptime:
                 type: number
           examples: {}
+    Alerts:
+      description: Array of alerts
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alerts'
 security:
   - Authorization: []

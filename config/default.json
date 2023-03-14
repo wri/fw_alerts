@@ -12,9 +12,11 @@
     "datasetSlug": "viirs",
     "dataset": "nasa_viirs_fire_alerts"
   },
-  "gfwDataApi": {
-    "url": "https://data-api.globalforestwatch.org",
-    "apiKey": null
+  "redis": {
+    "url": "REDIS_URL" 
+  },
+  "alertsAPI": {
+    "url": "ALERTS_API_URL"
   },
   "glad": {
     "datasetSlug": "umd_as_it_happens"

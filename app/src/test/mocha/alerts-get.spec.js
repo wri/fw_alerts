@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+/* eslint-disable */
 const nock = require("nock");
 const chai = require("chai");
 const config = require("config");
@@ -20,7 +20,7 @@ describe("Get alerts tests", function () {
   });
 
   it("Get alerts for a dataset that is not viirs nor glad should return a 400 error", async function () {
-    const response = await requester.get(`/api/v1/fw-alerts/12345/67890`);
+    const response = await requester.get(`/v1/fw-alerts/12345/67890`);
 
     response.status.should.equal(400);
     response.body.should.have.property("errors").and.be.an("array").and.length(2);
@@ -62,7 +62,7 @@ describe("Get alerts tests", function () {
         ]
       });
 
-    const response = await requester.get(`/api/v1/fw-alerts/gladDatasetSlug/ddc18d3a0692eea844f687c6d0fd3002`);
+    const response = await requester.get(`/v1/fw-alerts/gladDatasetSlug/ddc18d3a0692eea844f687c6d0fd3002`);
 
     response.status.should.equal(200);
     response.body.should.have.property("data").and.be.an("array").and.length(3);
@@ -104,7 +104,7 @@ describe("Get alerts tests", function () {
         status: "success"
       });
 
-    const response = await requester.get(`/api/v1/fw-alerts/viirsDatasetSlug/ddc18d3a0692eea844f687c6d0fd3002`);
+    const response = await requester.get(`/v1/fw-alerts/viirsDatasetSlug/ddc18d3a0692eea844f687c6d0fd3002`);
 
     response.status.should.equal(200);
     response.body.should.have.property("data").and.be.an("array").and.length(3);

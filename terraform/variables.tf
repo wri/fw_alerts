@@ -78,3 +78,7 @@ variable "healthcheck_path" {
 variable "healthcheck_sns_emails" {
   type = list(string)
 }
+variable "alerts_api_url" {
+  type    = string
+  default = "https://data-api.globalforestwatch.org"
+}
